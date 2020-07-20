@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    </head>
+    <body>
+        
+        <form>
+            <h1>This is a form</h1>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="Country">Country</label>
+            <select name="country" id="country" required>
+                <option value = ''></option>
+                <option value="United States">United States</option>
+                <option value="other">Other</option>
+            </select>
+            <label for="zip-code">Zip Code</label>
+            <input type="text" name="zip-code" id="zip-code" minLength = '5' maxlength="5" pattern="^[0-9]*$">
+            
+            
+            <fieldset>
+                <legend>Choose a password</legend>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" minlength="8" required>
+                <label for="password-confirm">Confirm Password</label>
+                <input type="password" name="password-confirm" id="password-confirm" required>
+            </fieldset>
+            <button type="submit" class = 'button'>Submit</button>
+        </form>
+
+    </body>
+</html>
+
+<style>
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+}
+
+form {
+    width: 50%;
+    height: 500px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin:0 auto;
+    border: solid 1px black;
+    box-shadow: 3px 3px 5px 2px gray;
+    padding: 1em;
+}
+
+input,
+select,
+fieldset {
+    margin-bottom: 1.5em;
+}
+
+#email {
+    width: 70%;
+}
+
+#zip-code {
+    width: 5em;
+}
+
+#country {
+    width: 10em;
+}
+
+
+fieldset input {
+    display: block;
+}
+
+.button {
+    width: 8rem;
+    padding: 0.5rem;
+    background-color:seagreen;
+    border: none;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: 1.25;
+}
+
+.button:hover {
+    cursor: pointer;
+    filter: brightness(75%);
+}
+
+.bad {
+    box-shadow: 0 0 2px 2px rgba(255,0,0,50%);
+    border: red;
+    outline: none;
+}
+
+.good {
+    background-color: rgba(0,255,0, 10%);
+    outline: none;
+}
+
+
+
+</style>
+
+
+
+<script>
+    const email = document.getElementById('email');
+    const zipCode = document.getElementById('zip-code');
+    const country = document.getElementById('country');
+    const password = document.getElementById('password');
+    const passwordConfirm = document.getElementById('password-confirm')
+    const submitButton = document.querySelector('.button');
+
+   email.addEventListener('input', (e) => {
+        if (email.validity.typeMismatch) {
+            email.setCustomValidity('Idiot! Enter an email');
+            email.className ='bad';
+        }else {
+            email.setCustomValidity('');
+            email.className = 'good';
+        }
+   });
+
+   email.addEventListener('blur', loseFocus)
+
+
+   zipCode.addEventListener('input', (e) => {
+        if (zipCode.validity.tooShort){
+            zipCode.setCustomValidity('Uhh, zipcodes are 5 numbers');
+            zipCode.className = 'bad';
+        } else if (zipCode.validity.patternMismatch) {
+            zipCode.setCustomValidity('Dude, zipcodes can only be numbers');
+            zipCode.className = 'bad';
+        } else {
+            zipCode.setCustomValidity('');
+            zipCode.className = 'good';
+        }
+   });
+
+   zipCode.addEventListener('blur', loseFocus);
+
+    password.addEventListener('input', (e) => {
+        if (password.validity.tooShort) {
+            password.setCustomValidity('your password sucks because it\'s too short')
+            password.className = 'bad'
+        } else {
+            password.setCustomValidity('');
+            password.className = 'good'
+        }
+    });
+
+    password.addEventListener('blur', loseFocus);
+
+    passwordConfirm.addEventListener('input', (e) => {
+        if (!(password.value === passwordConfirm.value)) {
+            passwordConfirm.setCustomValidity('Passwords must match, crapbrain')
+            passwordConfirm.className = 'bad';
+        } else {
+            passwordConfirm.setCustomValidity('');
+            passwordConfirm.className = 'good';
+        }
+    });
+
+    passwordConfirm.addEventListener('blur', loseFocus);
+
+
+    function loseFocus(e) {
+        if (e.target.validity.valueMissing) {
+            e.target.className = 'bad';
+        }
+    }
+
+
+</script>
